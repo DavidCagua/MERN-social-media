@@ -6,6 +6,14 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     required: 'Name is required'
   },
+  photo: {
+    data: Buffer,
+    contentType: String
+  },
+  about: {
+    type: String,
+    trim: true
+  },  
   email: {
     type: String,
     trim: true,
@@ -22,7 +30,9 @@ const UserSchema = new mongoose.Schema({
   created: {
     type: Date,
     default: Date.now
-  }
+  },
+  following: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
+  followers: [{type: mongoose.Schema.ObjectId, ref: 'User'}]
 })
 
 UserSchema

@@ -10,21 +10,45 @@ import { makeStyles } from '@material-ui/core/styles'
 import auth from './../auth/auth-helper'
 import {Redirect} from 'react-router-dom'
 import {signin} from './api-auth.js'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import signinImg from '../assets/images/signin.jpg'
+import Particles from 'react-particles-js';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    height: "100vh",
+  },
+  image: {
+    backgroundImage: `url(${signinImg})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  canva: {
+    height: '100%'
+  },
+  paper: {
+    margin: theme.spacing(5, 2),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
   card: {
-    maxWidth: 600,
     margin: 'auto',
     textAlign: 'center',
-    marginTop: theme.spacing(5),
-    paddingBottom: theme.spacing(2)
+    marginTop: theme.spacing(10),
+    paddingBottom: theme.spacing(3)
   },
   error: {
     verticalAlign: 'middle'
   },
   title: {
     marginTop: theme.spacing(2),
-    color: theme.palette.openTitle
+    color: '#ff4081'
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -78,23 +102,55 @@ export default function Signin(props) {
   }
 
   return (
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography variant="h6" className={classes.title}>
-            Sign In
-          </Typography>
-          <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
-          <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
-          <br/> {
-            values.error && (<Typography component="p" color="error">
-              <Icon color="error" className={classes.error}>error</Icon>
-              {values.error}
-            </Typography>)
-          }
-        </CardContent>
-        <CardActions>
-          <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
-        </CardActions>
-      </Card>
+    <>
+    <Grid container component="main" className={classes.root}>
+      <CssBaseline />
+      <Grid item xs={false} sm={4} md={7} component={Paper} className={classes.image} >
+        <Particles 
+          className={classes.canva} 
+          params={{
+            particles:{
+              number:{
+                value:60,
+                density:{
+                  enable: true,
+                  value_area: 900
+                }
+              },
+              shape:{
+                type: 'circle',
+                stroke:{
+                  width:4
+                }
+              }
+            }
+          }}/>
+      </Grid>
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <div className={classes.paper}>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography variant="h6" className={classes.title}>
+              Sign In
+            </Typography>
+            <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
+            <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
+            <br/> {
+              values.error && (<Typography component="p" color="error">
+                <Icon color="error" className={classes.error}>error</Icon>
+                {values.error}
+              </Typography>)
+            }
+          </CardContent>
+          <CardActions>
+            <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
+          </CardActions>
+        </Card>
+        </div>
+      </Grid>
+    </Grid>
+    
+
+  </>
     )
 }
