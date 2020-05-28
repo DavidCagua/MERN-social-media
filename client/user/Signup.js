@@ -14,6 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import {Link} from 'react-router-dom'
+import firebase from '../../firebase.config'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -70,6 +71,25 @@ export default function Signup() {
     })
   }
 
+  const clickGoogle = () => {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    firebase.auth().signInWithPopup(provider).then(result=>{
+      
+      const user = {
+        name: result.additionalUserInfo.profile.name || undefined,
+        email: result.additionalUserInfo.profile.email || undefined,
+        password: result.additionalUserInfo.profile.id || undefined
+      }
+      create(user).then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error})
+        } else {
+          setValues({ ...values, error: '', open: true})
+        }
+      })
+    })
+  }
+
     return (<div>
       <Card className={classes.card}>
         <CardContent>
@@ -87,6 +107,7 @@ export default function Signup() {
         </CardContent>
         <CardActions>
           <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
+          <Button color="primary" variant="contained" onClick={clickGoogle} className={classes.submit}>Google</Button>
         </CardActions>
       </Card>
       <Dialog open={values.open} disableBackdropClick={true}>

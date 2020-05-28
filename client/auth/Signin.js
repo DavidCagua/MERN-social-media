@@ -14,7 +14,8 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import signinImg from '../assets/images/signin.jpg'
-import Particles from 'react-particles-js';
+import Particles from 'react-particles-js'
+import firebase from '../../firebase.config'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -87,6 +88,25 @@ export default function Signin(props) {
     })
   }
 
+  const clickGoogle = () => {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    firebase.auth().signInWithPopup(provider).then(result=>{
+      
+      const user = {
+        email: result.additionalUserInfo.profile.email || undefined,
+        password: result.additionalUserInfo.profile.id || undefined
+      }
+      signin(user).then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error})
+        } else {
+          auth.authenticate(data, () => {
+            setValues({ ...values, error: '',redirectToReferrer: true})
+          })
+        }
+      })
+    })
+  }
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value })
   }
@@ -144,6 +164,7 @@ export default function Signin(props) {
           </CardContent>
           <CardActions>
             <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
+            <Button color="primary" variant="contained" onClick={clickGoogle} className={classes.submit}>Google</Button>
           </CardActions>
         </Card>
         </div>
