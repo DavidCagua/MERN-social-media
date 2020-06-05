@@ -12,36 +12,24 @@ import Typography from '@material-ui/core/Typography'
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    marginTop:"31px",
-    height: "99vh",
+    height: "100vh",
     backgroundRepeat: "no-repeat",
     backgroundPosition:"center",
     backgroundSize:"cover",
     backgroundImage: `url(${homeImg})`,
   },
-  card: {
-    maxWidth: 600,
-    margin: 'auto',
-    marginTop: theme.spacing(5),
-    marginBottom: theme.spacing(5)
-  },
   title: {
-    color: 'White',
-    marginTop: 40,
-    marginRight:20,
-    fontSize:80 
+    color: 'black',
+    fontSize:80,
+    textAlign: 'center',
+    WebkitTextStroke:'1px white'
   },
-  media: {
-    minHeight: 400
-  },
-  credit: {
-    padding: 10,
-    textAlign: 'right',
-    backgroundColor: '#ededed',
-    borderBottom: '1px solid #d0d0d0',
-    '& a':{
-      color: '#3f4771'
-    } 
+  Grid: {
+    flexGrow:1,
+    height:'100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 }))
 
@@ -56,10 +44,9 @@ export default function Home({history}){
     
     list(signal).then((data) => {
       if (data && data.error) {
-        console.log('hola error')
+        console.log(data.error)
       } else { 
         setNews(data.response.results)
-        console.log(data.response.results)
       }
       return function cleanup(){
         abortController.abort()
@@ -77,12 +64,12 @@ export default function Home({history}){
     return (
       <div className={classes.root}>
         { !defaultPage &&
-          <Grid container spacing={8}>
-            <Grid item xs={6}>
-              <NewsList News={News}/>
-            </Grid>
-            <Grid item xs={6}>
+          <Grid container  className={classes.Grid}>
+            <Grid item xs={12} md={6}>
               <Typography className={classes.title}>Welcome to a MERN social media!</Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <NewsList News={News}/>
             </Grid>
           </Grid>
         }

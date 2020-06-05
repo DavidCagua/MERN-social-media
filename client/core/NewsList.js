@@ -6,7 +6,13 @@ import Carousel from 'react-material-ui-carousel'
 export default function NewsList (props) {
 
   return (
-    <div style={{marginTop: '24px', position: 'absolute'}}>
+    <div 
+    style={{
+      marginTop: '24px',   
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
       <Carousel >
       {props.News.map((item, i) => {
           return <Newscard News={item} key={i}/>
