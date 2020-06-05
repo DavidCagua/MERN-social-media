@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import homeImg from './../assets/images/home.jpg'
+import { makeStyles, responsiveFontSizes } from '@material-ui/core/styles'
+import homeImg from './../assets/images/signin.jpg'
 import Grid from '@material-ui/core/Grid'
 import auth from './../auth/auth-helper'
 import FindPeople from './../user/FindPeople'
 import Newsfeed from './../post/Newsfeed'
+import NewsList  from './NewsList'
+import {list} from './api-news'
+import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,8 +26,10 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(5)
   },
   title: {
-    padding:`${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(2)}px`,
-    color: theme.palette.text.secondary
+    color: 'White',
+    marginTop: 40,
+    marginRight:20,
+    fontSize:80 
   },
   media: {
     minHeight: 400
@@ -43,8 +48,23 @@ const useStyles = makeStyles(theme => ({
 export default function Home({history}){
   const classes = useStyles()
   const [defaultPage, setDefaultPage] = useState(false)
+  const [News, setNews] = useState([])
 
   useEffect(()=> {
+    const abortController = new AbortController()
+    const signal = abortController.signal
+    
+    list(signal).then((data) => {
+      if (data && data.error) {
+        console.log('hola error')
+      } else { 
+        setNews(data.response.results)
+        console.log(data.response.results)
+      }
+      return function cleanup(){
+        abortController.abort()
+      }
+    })
     setDefaultPage(auth.isAuthenticated())
     const unlisten = history.listen (() => {
       setDefaultPage(auth.isAuthenticated())
@@ -58,8 +78,11 @@ export default function Home({history}){
       <div className={classes.root}>
         { !defaultPage &&
           <Grid container spacing={8}>
-            <Grid item xs={12}>
-
+            <Grid item xs={6}>
+              <NewsList News={News}/>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography className={classes.title}>Welcome to a MERN social media!</Typography>
             </Grid>
           </Grid>
         }

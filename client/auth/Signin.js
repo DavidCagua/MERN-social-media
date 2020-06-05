@@ -59,6 +59,12 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: 'auto',
     marginBottom: theme.spacing(2)
+  },
+  imageIcon: {
+    height: '100%'
+  },
+  iconRoot: {
+    textAlign: 'center'
   }
 }))
 
@@ -162,9 +168,18 @@ export default function Signin(props) {
               </Typography>)
             }
           </CardContent>
-          <CardActions>
+          <CardActions style={{display: 'inline-grid'}}>
             <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
-            <Button color="primary" variant="contained" onClick={clickGoogle} className={classes.submit}>Google</Button>
+            <Button 
+              color="primary" 
+              variant="contained" 
+              onClick={clickGoogle} 
+              startIcon={
+              <Icon classes={{root: classes.iconRoot}}>
+                <img className={classes.imageIcon} src= "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png" />
+              </Icon>}
+              className={classes.submit}
+            >Sign in with Google</Button>
           </CardActions>
         </Card>
         </div>

@@ -34,9 +34,11 @@ export default function Newsfeed () {
 
     listNewsFeed({
       userId: jwt.user._id
-    }, {
+    }, 
+    {
       t: jwt.token
-    }, signal).then((data) => {
+    }, 
+    signal).then((data) => {
       if (data.error) {
         console.log(data.error)
       } else {
