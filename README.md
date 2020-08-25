@@ -18,3 +18,8 @@ El usuario llega al homepage donde visualiza noticias en vivo provenientes de la
 a partir de ahi puede loggearse o suscribirse ya sea con email o con la API de google para inicio de sesiones mediante Firebase, 
 el proceso de autenticacion es manejado mediante Jason Web Token y de aqui en adelante el usuario puede publicar posts con imagen y descripcion 
 ademas de dar like y comentar.
+
+Para su puesta en marcha:
+
+npm install
+npm run development
