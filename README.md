@@ -22,4 +22,5 @@ ademas de dar like y comentar.
 Para su puesta en marcha:
 
 npm install
+
 npm run development
